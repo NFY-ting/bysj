@@ -1,0 +1,53 @@
+{
+  "homeInfo": {
+    "title": "站点统计",
+    "href": "analysis"
+  },
+  "logoInfo": {
+    "title": "网络安全实验平台",
+    "image": "../static/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "管理员端",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "站点统计",
+          "href": "analysis",
+          "icon": "fa fa-bar-chart",
+          "target": "_self"
+        },
+        {
+          "title": "教师管理",
+          "href": "addTeacher",
+          "icon": "fa fa-graduation-cap",
+          "target": "_self"
+        },
+        {
+          "title": "实验管理",
+          "href": "",
+          "icon": "fa fa-cogs",
+          "target": "_self",
+          "child": [
+            {
+              "title": "上传实验",
+              "href": "addLab",
+              "icon": "fa fa-cloud-upload",
+              "target": "_self"
+            },
+            {
+              "title": "查看实验",
+              "href": "allLab",
+              "icon": "fa fa-database",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

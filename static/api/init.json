@@ -1,0 +1,59 @@
+{
+  "homeInfo": {
+    "title": "个人中心",
+    "href": "info"
+  },
+  "logoInfo": {
+    "title": "网络安全实验平台",
+    "image": "../static/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "学生端",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "个人中心",
+          "href": "info",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "查看任务",
+          "href": "task",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "实验实践",
+          "href": "lab",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "成绩排名",
+          "href": "",
+          "icon": "fa fa-file-text",
+          "target": "_self",
+          "child": [
+            {
+              "title": "个人成绩",
+              "href": "self_garde",
+              "icon": "",
+              "target": "_self"
+            },
+            {
+              "title": "班级成绩",
+              "href": "stu_class",
+              "icon": "",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

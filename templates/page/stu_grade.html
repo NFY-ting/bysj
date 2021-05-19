@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>个人成绩</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+
+  <style>
+    .layui-top-box {
+      padding: 40px 20px 20px 20px;
+      color: #fff
+    }
+
+    .panel {
+      margin-bottom: 17px;
+      background-color: #fff;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+    }
+
+    .panel-body {
+      padding: 15px
+    }
+
+    .panel-title {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 14px;
+      color: inherit
+    }
+
+    .label {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+      margin-top: .3em;
+    }
+
+    .layui-red {
+      color: red
+    }
+
+    .main_btn>p {
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main layui-top-box">
+      <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-green">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-blue">实时</span> -->
+                  <h5>任务总数</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{taskNum}}</h1>
+                  <small>当前班级任务总数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md6">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-orange">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-cyan">实时</span> -->
+                  <h5>已完成数</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{fillNum}}</h1>
+                  <small>当前已完成任务总数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-primary layui-border-orange" lay-event="refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                <button class="layui-btn layui-btn-primary layui-border-blue" id="btn-fold">全部折叠</button>
+                <!-- <button type="button" class="layui-btn layui-btn-sm layui-btn-normal"></button> -->
+            </div>
+            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+<!-- <script src="{{ url_for('static',filename='js/stu_grade.js')}}"></script> -->
+
+<script>
+    layui.use(['table', 'treetable', 'layer'], function () {
+    var $ = layui.jquery;
+    var table = layui.table;
+    var treetable = layui.treetable;
+    // 渲染表格
+    layer.load(2);
+    treetable.render({
+      treeColIndex: 1,
+      treeSpid: -1,
+      treeIdName: 'lab_id',
+      treePidName: 'parentId',
+      elem: '#munu-table',
+      url: '/forGrade',
+      page: false,
+      cols: [[
+        { type: 'numbers' },
+        { field: 'lab_id', width: 110, title: '实验号' },
+        { field: 'lab_name', minWidth: 120,title: '实验名称' },
+        { field: 'lab_info', minWidth: 120, title: '介绍' },
+        { field: 'lab_aim', minWidth: 120, title: '目的' },
+      ]],
+      done: function () {
+        layer.closeAll('loading');
+      }
+    });
+
+    $('#btn-fold').click(function () {
+      treetable.foldAll('#munu-table');
+    });
+  });
+</script>
+</body>
+
+</html>

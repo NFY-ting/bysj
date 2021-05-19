@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>班级排名</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+
+  <style>
+    .layui-top-box {
+      padding: 40px 20px 20px 20px;
+      color: #fff
+    }
+
+    .panel {
+      margin-bottom: 17px;
+      background-color: #fff;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+    }
+
+    .panel-body {
+      padding: 15px
+    }
+
+    .panel-title {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 14px;
+      color: inherit
+    }
+
+    .label {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+      margin-top: .3em;
+    }
+
+    .layui-red {
+      color: red
+    }
+
+    .main_btn>p {
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main layui-top-box">
+      <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+          <div id="echarts-records" style="width: 100%;min-height:500px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+<script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static',filename='js/lay-config.js')}}" charset="utf-8"></script>
+<script>
+  layui.use(['layer', 'echarts'], function () {
+    var $ = layui.jquery,
+      echarts = layui.echarts;
+    $(document).ready(function () {
+      // 基于准备好的dom，初始化echarts实例
+      var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+      var optionRecords = {
+        // 统计图标题
+        title: {
+          text: '成绩统计',
+          subtext: ''
+        },
+        // 提示框组件
+        tooltip: {
+          // 是否显示提示框组件：坐标轴触发
+          trigger: 'axis'
+        },
+        // 展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示
+        legend: {
+          data: ['班级完成率', '个人完成率'],
+          show: true
+        },
+        // 直角坐标系底板
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        // 工具栏组件
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        // X 轴
+        xAxis: {
+          // 数组每项表示一个组件实例，用 type 描述“子类型”
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        // Y轴
+        yAxis: {
+          type: 'value'
+        },
+        // series是指：一组数值以及他们映射成的图
+        // echarts 里series.type就是图表类型。line（折线图）
+        series: [
+          {
+            type: 'line',
+            data: [],
+            barWidth: '10%',
+            name: '班级完成率'
+          },
+          {
+            type: 'line',
+            data: [],
+            barWidth: '10%',
+            name: '个人完成率'
+          }
+        ]
+      };
+      // 获取数据
+      $.ajax({
+        type: 'get',
+        data: '',
+        contentType: 'application/json',
+        dataType: 'json',
+        url: 'class_grade',
+        success: function (resp) {
+          if (resp.status) {
+            optionRecords.title.subtext = '班级总人数：' + resp.total;
+            optionRecords.xAxis.data = resp.xAxis;
+            optionRecords.series[0].data = resp.rate;      // 班级
+            optionRecords.series[1].data = resp.data;        // 个人
+          }
+          echartsRecords.setOption(optionRecords);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          // 状态码
+          console.log(XMLHttpRequest.status);
+          // 状态
+          console.log(XMLHttpRequest.readyState);
+          // 错误信息
+          alert(textStatus);
+        }
+      });
+
+
+      // echarts 窗口缩放自适应
+      window.onresize = function () {
+        echartsRecords.resize();
+      }
+    });
+  });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>实验操作</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/font-awesome-4.7.0/css/font-awesome.min.css') }}"
+    media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+</head>
+<style>
+  #more {
+    font-size: large;
+    color: rgb(128, 128, 128);
+  }
+</style>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main">
+      <div class="layui-row layui-col-space15">
+        {% for lab in lab_list %}
+        <div class="layui-col-md4">
+          <!-- <input type="text" name="isactive" style="display: none;" value="{{lab.show}}"> -->
+          <div class="layui-card">
+            <div class="layui-card-header">
+              <ul class="layui-row">
+                <li class="layui-col-xs11">
+                  <h2>实验{{lab.lab_id}}:{{lab.lab_name}}</h2>
+                </li>
+                <li class="layui-col-xs1" title="提交flag">
+                  <a href="javascript:;" id="more" onclick='flagClick("{{lab.lab_id}}")'><i
+                      class="fa fa-flag-checkered"></i></a>
+                </li>
+              </ul>
+            </div>
+            <div class="layui-card-body" title="{{lab.lab_info}}">
+              <a href="{{lab.lab_url}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{lab.lab_img}}" alt="img error" width="100%" height="250px">
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js' )}}" charset="utf-8"></script>
+  <script src="{{ url_for('static',filename='lib/jquery-3.4.1/jquery-3.4.1.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+  <!-- <script src="{{ url_for('static',filename='js/stuLab.js')}}"></script> -->
+  <script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        $ = layui.$;
+      window.flagClick = function (lab_id) {
+        layer.prompt({
+          formType: 0,
+          title: '提交flag'
+        },
+          function (value, index, elem) {
+            data = {
+              'lab_id': lab_id,
+              'flag': value
+            }
+            $.ajax({
+              type: "post",
+              url: "/postFlag",
+              data: JSON.stringify(data),
+              contentType: "application/json",
+              dataType: "json",
+              success: function (response) {
+                if (response.status) {
+                  layer.msg('恭喜成功找到flag', { icon: 1 });
+                } else {
+                  layer.msg("请继续寻找flag", { icon: 5 });
+                }
+              },
+              error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // 状态码
+                console.log(XMLHttpRequest.status);
+                // 状态
+                console.log(XMLHttpRequest.readyState);
+                // 错误信息
+                // alert(textStatus);
+              }
+            });
+            layer.close(index);
+          });
+      }
+    });
+  </script>
+</body>
+
+</html>

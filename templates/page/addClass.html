@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>添加班级</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/jq-module/zyupload/zyupload-1.0.0.min.css') }}"
+    media="all">
+</head>
+<style>
+  #item {
+    position: relative;
+  }
+
+  #item>input {
+    cursor: pointer;
+  }
+</style>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main">
+      <blockquote class="layui-elem-quote">
+        上传学生名单，批量注册学生账号<br>
+        表格包含学生学号、姓名、性别、班级、邮箱等信息
+      </blockquote>
+      <!-- 上传学生名单 -->
+      <div class="layui-row layui-col-space2">
+        <!-- 上传按钮 -->
+        <div class="layui-col-md2 layui-input-inline layui-col-md-offset4">
+          <input type=" text" placeholder="支持上传Excel表格..." class="layui-input" id="file-name" readonly>
+        </div>
+        <div id="item" class="layui-col-md1">
+          <form id="file_form" enctype='multipart/form-data'>
+            <input value="选择文件" id="choose" type="button" class="layui-btn layui-btn-primary">
+            <input id="fileInp" type="file" name="file" style="display: none;">
+          </form>
+        </div>
+        <div class="layui-col-md1">
+          <button class="layui-btn" type="button" id="commit">确认上传</button>
+        </div>
+      </div>
+      <!-- 查看学生名单 -->
+      <div>
+        <div class="layui-btn-group">
+          <button class="layui-btn" lay-event="refresh"><i class="layui-icon layui-icon-refresh"></i>刷新</button>
+          <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
+          <!-- <button type="button" class="layui-btn layui-btn-sm layui-btn-normal"></button> -->
+        </div>
+        <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+      </div>
+    </div>
+  </div>
+  <!-- 操作列 -->
+  <script type="text/html" id="auth-state">
+      <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="check">查看成绩</a>
+  </script>
+  <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+  <script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+  <script src="{{ url_for('static',filename='js/addClass.js')}}"></script>
+</body>
+
+</html>

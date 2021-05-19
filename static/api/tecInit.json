@@ -1,0 +1,51 @@
+{
+  "homeInfo": {
+    "title": "个人中心",
+    "href": "tec_info"
+  },
+  "logoInfo": {
+    "title": "网络安全实验平台",
+    "image": "../static/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "教师端",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "个人中心",
+          "href": "tec_info",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "任务管理",
+          "href": "addTask",
+          "icon": "fa fa-tasks",
+          "target": "_self"
+        },
+        {
+          "title": "班级管理",
+          "href": "addClass",
+          "icon": "fa fa-group",
+          "target": "_self"
+        },
+        {
+          "title": "实验管理",
+          "href": "allLab",
+          "icon": "fa fa-share-alt",
+          "target": "_self"
+        },
+        {
+          "title": "成绩排名",
+          "href": "tecGrade",
+          "icon": "fa fa-line-chart",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>查看实验</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+</head>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main">
+      <div class="layui-row layui-col-space15">
+        {% for lab in lab_list %}
+        <div class="layui-col-md4">
+          <div class="layui-card">
+            <div class="layui-card-header">
+              <h2>{{lab.lab_name}}</h2>
+            </div>
+            <div class="layui-card-body" title="{{lab.lab_info}}">
+              <a href="{{lab.lab_url}}" target="_blank" rel="noopener noreferrer">
+                <img src="{{lab.lab_img}}" alt="img error" width="100%" height="250px">
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+  <script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+  <!-- <script src="{{ url_for('static',filename='js/allLab.js')}}"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>实验任务</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+</head>
+<style>
+  #timeLine h2 {
+    cursor: default;
+  }
+
+  #timeLine p {
+    font-size: 15px;
+    /* font-family: -webkit-pictograph; */
+    letter-spacing: 2px;
+    word-spacing: 1px;
+    display: inline-block;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #quote {
+    border-left: 5px solid rgb(173, 216, 230);
+  }
+
+  #timeLine p:hover {
+    width: 90%;
+    white-space: normal;
+    overflow: auto;
+  }
+</style>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main">
+      <blockquote class="layui-elem-quote layui-text" id="quote">
+        请尽快完成老师布置的实验任务哦~
+      </blockquote>
+      <ul class="layui-timeline" style="padding: 0 0 0 40px ;" id="timeLine">
+        {% for lab in lab_list %}
+        <li class="layui-timeline-item">
+          <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+          <div class="layui-timeline-content layui-text">
+            <h3 class="layui-timeline-title">{{lab.lab_name}}</h3>
+            <p><strong> 实验目的：</strong>{{lab.lab_aim}}</p>
+            <br>
+            <p><strong>实验介绍：</strong> {{lab.lab_info}}</p>
+
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+  <script src="{{ url_for('static',filename='lib/jquery-3.4.1/jquery-3.4.1.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+</body>
+
+</html>

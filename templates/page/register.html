@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" href="{{ url_for('static',filename='images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css')}}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css')}}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static',filename='js/lay-module/step-lay/step.css')}}" media="all">
+</head>
+
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+
+            <div class="layui-fluid">
+                <div class="layui-card">
+                    <div class="layui-card-body" style="padding-top: 30px;">
+                        <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                            <div carousel-item>
+                                <div>
+                                    <form class="layui-form"
+                                        style="margin: 0 auto;max-width: 460px;padding: 20px 80px 0 0;">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">学号：</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="10" type="text" name="stu_id" placeholder="请填写学生登录学号"
+                                                    class="layui-input" lay-verify="number" required />
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">姓名:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="10" type="text" name="stu_name" placeholder="请填写学生姓名"
+                                                    value="" class="layui-input" lay-verify="username" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">设置密码:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="15" type="password" name="pwd"
+                                                    placeholder="请输入8~15位密码" value="" class="layui-input"
+                                                    lay-verify="pass" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">性别:</label>
+                                            <div class="layui-input-block">
+                                                <select lay-verify="required" name="sex">
+                                                    <option value="male" selected>男</option>
+                                                    <option value="female">女</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">验证邮箱:</label>
+                                            <div class="layui-input-block">
+                                                <input type="email" name="email" autocomplete="off" placeholder="请绑定邮箱"
+                                                    value="" class="layui-input" lay-verify="email" required>
+                                                <!-- <button id="getCode" type="button">发送验证码</button> -->
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">班级绑定:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="4" type="text" name="class_code" autocomplete="off"
+                                                    placeholder="请输入4位班级邀请码" value="" class="layui-input"
+                                                    lay-verify="code" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item" style="padding-left: 80px;">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" lay-submit lay-filter="formStep">
+                                                    &emsp;下一步&emsp;
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div>
+                                    <form class="layui-form postForm"
+                                        style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">学号：</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="10" type="text" readonly name="stu_id"
+                                                    placeholder="请填写学生登录学号" class="layui-input" lay-verify="number"
+                                                    required />
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">姓名:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="10" type="text" readonly name="stu_name"
+                                                    placeholder="请填写学生姓名" value="" class="layui-input"
+                                                    lay-verify="username" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">确认密码:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="15" type="password" name="repwd" placeholder="再次输入密码"
+                                                    value="" class="layui-input" lay-verify="pass" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">性别:</label>
+                                            <div class="layui-input-block">
+                                                <input type="radio" name="sex" value="male" title="男" id="ma"
+                                                    lay-filter='sexCheck' required>
+                                                <input type="radio" name="sex" value="female" title="女" id="fe"
+                                                    lay-filter='sexCheck' required>
+                                            </div>
+                                            <!-- <div class="layui-input-block">
+                                                <select lay-verify="required" name="sex" id="sexSel">
+                                                    <option value="male" selected>男</option>
+                                                    <option value="female">女</option>
+                                                </select>
+                                            </div> -->
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">确认邮箱:</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" name="email" autocomplete="off"
+                                                    placeholder="请输入邮箱激活码" value="" class="layui-input" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">班级:</label>
+                                            <div class="layui-input-block">
+                                                <input maxlength="4" type="text" name="class_code" autocomplete="off"
+                                                    readonly placeholder="请输入班级邀请码" value="" class="layui-input"
+                                                    lay-verify="code" required>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button type="button"
+                                                    class="layui-btn layui-btn-primary pre">上一步</button>
+                                                <button class="layui-btn" lay-submit lay-filter="formStep2">
+                                                    &emsp;确认&emsp;
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div>
+                                    <div style="text-align: center;margin-top: 90px;">
+                                        <!-- if answer.status -->
+                                        <!-- 查找班级成功 -->
+                                        <i class="layui-icon layui-circle"
+                                            style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+                                        <div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+                                            注册成功！
+                                        </div>
+                                        <!-- endif -->
+
+                                        <!-- <div style="font-size: 14px;color: #666;margin-top: 20px;">预计两小时到账</div> -->
+                                    </div>
+                                    <div style="text-align: center;margin-top: 50px;">
+                                        <button class="layui-btn next">重新注册</button>
+                                        <button class="layui-btn layui-btn-primary"><a href="/">去登录</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="color: #666;margin-top: 40px;margin-bottom: 40px;padding-left: 30px;">
+                            <hr>
+                            <h2>说明</h2><br>
+                            <h4>注册账号为学生账号</h4>
+                            <p>如果需要教师账号，请联系管理员。</p>
+                            <br>
+                            <h4>班级邀请码</h4>
+                            <p>即班级授权码，是每个班级的唯一标识码<br>具体各班邀请码请联系老师</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+    <script src="{{ url_for('static',filename='js/lay-config.js')}}" charset="utf-8"></script>
+    <script src="{{ url_for('static',filename='lib/jquery-3.4.1/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='js/register.js')}}" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'step'], function () {
+            var $ = layui.$,
+                form = layui.form,
+                step = layui.step;
+
+            step.render({
+                elem: '#stepForm',
+                filter: 'stepForm',
+                width: '100%', //设置容器宽度
+                stepWidth: '750px',
+                height: '500px',
+                stepItems: [{
+                    title: '填写注册信息'
+                }, {
+                    title: '确认注册信息'
+                }, {
+                    title: '完成'
+                }]
+            });
+            form.verify({
+                username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                    if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                        return '姓名不能有特殊字符';
+                    }
+                    if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                        return '姓名首尾不能出现下划线\'_\'';
+                    }
+                }
+                //我们既支持上述函数式的方式，也支持下述数组的形式
+                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+                , pass: [
+                    /^[\S]{8,15}$/
+                    , '密码必须8到15位且不能出现空格'
+                ]
+                , code: function (value) {
+                    if (value.length != 4) {
+                        return '班级邀请码长度为6位';
+                    }
+                }
+            });
+            let form1Data;
+            form.on('submit(formStep)', function (data) {       //将表格一的值传给表单二
+                form1Data = data.field;
+                $('.postForm input[name="stu_id"]').val(form1Data.stu_id);
+                $('.postForm input[name="stu_name"]').val(form1Data.stu_name);
+                $('.postForm input[name="sex"]').val(form1Data.sex);
+                $('.postForm input[name="class_code"]').val(form1Data.class_code);
+                $('.postForm input[name="email"]').val(form1Data.email);
+                if (form1Data.sex == 'female') {
+                    $('#fa').removeAttr('disabled');
+                    $('#ma').attr('disabled', 'disabled');
+                    $('#fa').attr('checked', 'checked');
+                } else {
+                    $('#ma').removeAttr('disabled');
+                    $('#fa').attr('disabled', 'disabled');
+                    $('#ma').attr('checked', 'checked');
+                }
+                form.render('radio');
+                step.next('#stepForm');
+                return false;
+            });
+
+            form.on('submit(formStep2)', function (data) {
+                // console.log(form1Data);
+                // console.log(data);
+                if (form1Data.pwd === data.field.repwd) {
+                    console.log('两次密码相同');
+                    console.log(data.field);
+                    // user = { 'stu_id': data.field.stu_id }
+                    $.ajax({
+                        type: 'POST',
+                        data: data.field,
+                        // contentType: 'application/json',
+                        // dataType: 'json',
+                        url: "{{ url_for('register_request') }}",
+                        success: function (data) {
+                            if (data.status) {      //注册成功
+                                step.next('#stepForm');                //
+                            } else {
+                                layer.msg(data.info, { icon: 5 });
+                                // window.location = '/register';
+                            }
+                        },
+
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            // 状态码
+                            console.log(XMLHttpRequest.status);
+                            // 状态
+                            console.log(XMLHttpRequest.readyState);
+                            // 错误信息
+                            layer.msg(textStatus, { icon: 5 });
+                        }
+                    });
+
+                } else {
+                    layer.msg('两次密码不一样', { icon: 5 });
+                }
+                return false;
+            });
+
+            $('.pre').click(function () {
+                step.pre('#stepForm');
+            });
+
+            $('.next').click(function () {
+                step.next('#stepForm');
+            });
+        })
+    </script>
+</body>
+
+</html>

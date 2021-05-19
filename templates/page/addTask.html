@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>添加任务</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+</head>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main">
+
+      <blockquote class="layui-elem-quote layui-text">
+        为班级分配实验任务
+      </blockquote>
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>分配任务</legend>
+      </fieldset>
+      <form class="layuimini-form layui-form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">班级</label>
+          <div class="layui-input-inline">
+            <select name="class_id" lay-filter="class">
+              <option value="">请选择班级</option>
+              {% for cla in claList %}
+              <option value='{{ cla.class_id }}'>{{ cla.class_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <label class="layui-form-label">实验</label>
+          <div class="layui-input-inline">
+            <select name="lab_id" lay-filter="lab" id="labtory">
+              <option value="">请先选择班级</option>
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <button class="layui-btn" lay-submit lay-filter="addForm">添加任务</button>
+          </div>
+        </div>
+
+      </form>
+      <!-- table -->
+      <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                  <button class="layui-btn layui-btn-primary layui-btn-sm" lay-event="refresh" id="refr"><i class="layui-icon layui-icon-refresh-3"></i>刷新</button>
+                </div>
+      </script>
+      <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+      <script type="text/html" id="currentTableBar">
+              <a class="layui-btn layui-btn-warm layui-btn-xs data-count-edit" lay-event="del">删除</a>
+            </script>
+    </div>
+  </div>
+  <script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+  <script src="{{ url_for('static',filename='js/lay-config.js')}}"></script>
+  <script src="{{ url_for('static',filename='lib/jquery-3.4.1/jquery-3.4.1.min.js')}}"></script>
+  <script src="{{ url_for('static',filename='js/addTask.js')}}"></script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>站点统计</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static',filename='lib/layui-v2.5.5/css/layui.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/public.css') }}" media="all">
+
+  <style>
+    .layui-top-box {
+      padding: 40px 20px 20px 20px;
+      color: #fff
+    }
+
+    .panel {
+      margin-bottom: 17px;
+      background-color: #fff;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+    }
+
+    .panel-body {
+      padding: 15px
+    }
+
+    .panel-title {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 14px;
+      color: inherit
+    }
+
+    .label {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+      margin-top: .3em;
+    }
+
+    .layui-red {
+      color: red
+    }
+
+    .main_btn>p {
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layuimini-container">
+    <div class="layuimini-main layui-top-box">
+      <div class="layui-row layui-col-space10">
+
+        <div class="layui-col-md3">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-cyan">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-blue">实时</span> -->
+                  <h5>教师统计</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{tecLen}}</h1>
+                  <small>当前分类总记录数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md3">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-blue">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-cyan">实时</span> -->
+                  <h5>学生统计</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{stuLen}}</h1>
+                  <small>当前分类总记录数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md3">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-green">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-orange">实时</span> -->
+                  <h5>班级统计</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{claLen}}</h1>
+                  <small>当前分类总记录数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md3">
+          <div class="col-xs-6 col-md-3">
+            <div class="panel layui-bg-orange">
+              <div class="panel-body">
+                <div class="panel-title">
+                  <!-- <span class="label pull-right layui-bg-green">实时</span> -->
+                  <h5>实验统计</h5>
+                </div>
+                <div class="panel-content">
+                  <h1 class="no-margins">{{labLen}}</h1>
+                  <!-- <div class="stat-percent font-bold text-gray"><i class="fa fa-commenting"></i> 1234</div> -->
+                  <small>当前分类总记录数</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-md12">
+            <div id="echarts-records" style="width: 100%;min-height:500px"></div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="{{ url_for('static',filename='lib/layui-v2.5.5/layui.js')}}" charset="utf-8"></script>
+<script src="{{ url_for('static',filename='js/lay-config.js')}}" charset="utf-8"></script>
+<!-- <script src="{{ url_for('static',filename='js/ad_analysis.js')}}"></script> -->
+
+<script>
+  layui.use(['layer','echarts'], function () {
+    var $ = layui.jquery,
+        echarts = layui.echarts;
+    $(document).ready(function () {
+          /**
+         * 实验统计
+         */
+        // 基于准备好的dom，初始化echarts实例
+        var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+        var optionRecords = {
+            // 统计图标题
+            title: {
+                text: '实验统计',
+                subtext: '完成率'
+            },
+            // 提示框组件
+            tooltip: {
+                // 是否显示提示框组件：坐标轴触发
+                trigger: 'axis'
+                // formatter: '{b0}<br/>{a0}: {c0}%<br />{a1}: {c1}%<br />{a2}: {c2}%'//展示百分比  五条折线
+            
+            },
+            // 展现了不同系列的标记，颜色和名字。可以通过点击图例控制哪些系列不显示
+            legend: {
+                data:[],
+                show:true
+            },
+            // 直角坐标系底板
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            // 工具栏组件
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            // X 轴
+            xAxis: {
+                // 数组每项表示一个组件实例，用 type 描述“子类型”
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            // Y轴
+            yAxis: {
+                type: 'value',
+                // axisLabel: {  
+                //             show: true,  
+                //             interval: 'auto',  
+                //             formatter: '{value} %'  
+                //             },  
+                show: true  
+            },
+            // series是指：一组数值以及他们映射成的图
+            // echarts 里series.type就是图表类型。line（折线图）
+            series: [
+                {
+                    type:'bar',
+                    data:[],
+                    barWidth:'10%',
+                    name:''
+                }
+            ]
+        };
+        // 获取数据
+        $.ajax({
+            type: 'get',
+            data: '',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: 'analysis_lab',
+            success: function (resp) {
+              if (resp.status) {      //登录成功
+                optionRecords.legend.data = resp.legend;
+                optionRecords.xAxis.data = resp.legend;
+                // optionRecords.series[0].name = resp.legend;
+                optionRecords.series[0].data = resp.data;
+              }
+              console.log(optionRecords);
+              // 调用 setOption 将 option 输入 echarts，然后 echarts 渲染图表。
+              echartsRecords.setOption(optionRecords);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              // 状态码
+              console.log(XMLHttpRequest.status);
+              // 状态
+              console.log(XMLHttpRequest.readyState);
+              // 错误信息
+              alert(textStatus);
+            }
+          });
+        
+
+        // echarts 窗口缩放自适应
+        window.onresize = function(){
+            echartsRecords.resize();
+        }
+    });
+});
+</script>
+</body>
+
+</html>
